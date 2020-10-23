@@ -29,20 +29,9 @@ public class QueryServletTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        clearTable();
+        ServletTestUtils.clearTable();
         insertTestRows();
         queryServlet = new QueryServlet();
-    }
-
-    private void clearTable() {
-        try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-            String sql = "DELETE FROM PRODUCT WHERE 1";
-            Statement stmt = c.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void insertTestRows() {
