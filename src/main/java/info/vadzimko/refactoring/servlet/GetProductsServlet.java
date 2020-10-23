@@ -1,5 +1,6 @@
 package info.vadzimko.refactoring.servlet;
 
+import info.vadzimko.refactoring.html.ResponseBuilder;
 import info.vadzimko.refactoring.storage.SelectQuery;
 
 import javax.servlet.http.HttpServlet;
@@ -13,14 +14,21 @@ public class GetProductsServlet extends HttpServlet {
         try {
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT");
             selectQuery.execute();
-            response.getWriter().println("<html><body>");
 
+            StringBuilder sb = new StringBuilder();
+            boolean firstLine = true;
             while (selectQuery.next()) {
+                if (!firstLine) {
+                    sb.append("\n");
+                }
+
                 String name = selectQuery.getString("name");
                 int price = selectQuery.getInt("price");
-                response.getWriter().println(name + "\t" + price + "</br>");
+                sb.append(name).append("\t").append(price).append("</br>");
+                firstLine = false;
             }
-            response.getWriter().println("</body></html>");
+
+            response.getWriter().println(ResponseBuilder.buildResponse(sb.toString()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
