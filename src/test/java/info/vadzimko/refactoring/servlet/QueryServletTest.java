@@ -29,22 +29,8 @@ public class QueryServletTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         ServletTestUtils.clearTable();
-        insertTestRows();
+        ServletTestUtils.insertTestRows();
         queryServlet = new QueryServlet();
-    }
-
-    private void insertTestRows() {
-        try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-            String sql = "INSERT INTO PRODUCT " +
-                    "(NAME, PRICE) VALUES " +
-                    "('cat', 10)," +
-                    "('dog', 20)";
-            Statement stmt = c.createStatement();
-            stmt.executeUpdate(sql);
-            stmt.close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void mockServletRequestCommand(String command) {
