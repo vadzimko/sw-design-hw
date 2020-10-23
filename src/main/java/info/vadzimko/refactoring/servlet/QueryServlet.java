@@ -1,6 +1,7 @@
 package info.vadzimko.refactoring.servlet;
 
 import info.vadzimko.refactoring.html.ResponseBuilder;
+import info.vadzimko.refactoring.storage.QueriesHandler;
 import info.vadzimko.refactoring.storage.SelectQuery;
 
 import javax.servlet.http.HttpServlet;
@@ -13,48 +14,35 @@ public class QueryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String command = request.getParameter("command");
 
-        if ("max".equals(command)) {
-            try {
-                SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1");
-                selectQuery.execute();
-
-                response.getWriter().println(ResponseBuilder.buildProductsResponse("Product with max price: ", selectQuery));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        String responseBody;
+        switch (command) {
+            case "max": {
+                String sql = "SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1";
+                responseBody = QueriesHandler.selectAll("Product with max price: ", sql);
+                break;
             }
-        } else if ("min".equals(command)) {
-            try {
-                SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1");
-                selectQuery.execute();
-
-                response.getWriter().println(ResponseBuilder.buildProductsResponse("Product with min price: ", selectQuery));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            case "min": {
+                String sql = "SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1";
+                responseBody = QueriesHandler.selectAll("Product with min price: ", sql);
+                break;
             }
-        } else if ("sum".equals(command)) {
-            try {
-                SelectQuery selectQuery = new SelectQuery("SELECT SUM(price) as sum FROM PRODUCT");
-                selectQuery.execute();
-
-                response.getWriter().println(ResponseBuilder.buildAggregateResponse("Summary price: \n", selectQuery, "sum"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            case "sum": {
+                String sql = "SELECT SUM(price) as sum FROM PRODUCT";
+                responseBody = QueriesHandler.aggregate("Summary price: \n", sql, "sum");
+                break;
             }
-        } else if ("count".equals(command)) {
-            try {
-                SelectQuery selectQuery = new SelectQuery("SELECT COUNT(*) as count FROM PRODUCT");
-                selectQuery.execute();
-
-                response.getWriter().println(ResponseBuilder.buildAggregateResponse("Number of products: \n", selectQuery, "count"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            case "count": {
+                String sql = "SELECT COUNT(price) as count FROM PRODUCT";
+                responseBody = QueriesHandler.aggregate("Number of products: \n", sql, "count");
+                break;
             }
-        } else {
-            response.getWriter().println("Unknown command: " + command);
+            default: {
+                responseBody = "Unknown command: " + command;
+                break;
+            }
         }
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        ResponseBuilder.setOkResponse(response, responseBody);
     }
 
 }

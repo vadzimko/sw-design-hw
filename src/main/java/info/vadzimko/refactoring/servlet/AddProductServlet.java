@@ -1,5 +1,6 @@
 package info.vadzimko.refactoring.servlet;
 
+import info.vadzimko.refactoring.html.ResponseBuilder;
 import info.vadzimko.refactoring.storage.UpdateQuery;
 
 import javax.servlet.http.HttpServlet;
@@ -23,8 +24,6 @@ public class AddProductServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("OK");
+        ResponseBuilder.setOkResponse(response, "OK");
     }
 }
