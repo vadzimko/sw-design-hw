@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,20 +47,13 @@ public class QueryServletTest {
         }
     }
 
-    private StringWriter mockServletResponseWriter() throws IOException {
-        StringWriter writer = new StringWriter();
-        when(response.getWriter()).thenReturn(new PrintWriter(writer));
-
-        return writer;
-    }
-
-    private void mockServletRequestCommand(String command){
+    private void mockServletRequestCommand(String command) {
         when(request.getParameter("command")).thenReturn(command);
     }
 
     private void assertCommandResult(String command, String expectedResult) throws IOException {
         mockServletRequestCommand(command);
-        StringWriter writer = mockServletResponseWriter();
+        StringWriter writer = ServletTestUtils.mockServletResponseWriter(response);
 
         queryServlet.doGet(request, response);
         Assert.assertEquals(expectedResult, writer.toString());

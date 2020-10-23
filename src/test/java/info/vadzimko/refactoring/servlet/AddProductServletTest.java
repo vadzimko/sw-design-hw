@@ -35,13 +35,6 @@ public class AddProductServletTest {
         addProductServlet = new AddProductServlet();
     }
 
-    private StringWriter mockServletResponseWriter() throws IOException {
-        StringWriter writer = new StringWriter();
-        when(response.getWriter()).thenReturn(new PrintWriter(writer));
-
-        return writer;
-    }
-
     private ArrayList<String> selectAllRows() {
         ArrayList<String> result = new ArrayList<>();
 
@@ -67,7 +60,7 @@ public class AddProductServletTest {
     public void addTest() throws IOException {
         when(request.getParameter("name")).thenReturn("cat", "dog");
         when(request.getParameter("price")).thenReturn("10", "20");
-        mockServletResponseWriter();
+        ServletTestUtils.mockServletResponseWriter(response);
 
         addProductServlet.doGet(request, response);
         addProductServlet.doGet(request, response);
