@@ -18,14 +18,7 @@ public class QueryServlet extends HttpServlet {
                 SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1");
                 selectQuery.execute();
 
-                StringBuilder sb = new StringBuilder();
-
-                while (selectQuery.next()) {
-                    String name = selectQuery.getString("name");
-                    int price = selectQuery.getInt("price");
-                    sb.append(name).append("\t").append(price).append("</br>");
-                }
-                response.getWriter().println(ResponseBuilder.buildResponse("Product with max price: ", sb.toString()));
+                response.getWriter().println(ResponseBuilder.buildProductsResponse("Product with max price: ", selectQuery));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -34,13 +27,7 @@ public class QueryServlet extends HttpServlet {
                 SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1");
                 selectQuery.execute();
 
-                StringBuilder sb = new StringBuilder();
-                while (selectQuery.next()) {
-                    String name = selectQuery.getString("name");
-                    int price = selectQuery.getInt("price");
-                    sb.append(name).append("\t").append(price).append("</br>");
-                }
-                response.getWriter().println(ResponseBuilder.buildResponse("Product with min price: ", sb.toString()));
+                response.getWriter().println(ResponseBuilder.buildProductsResponse("Product with min price: ", selectQuery));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -49,12 +36,7 @@ public class QueryServlet extends HttpServlet {
                 SelectQuery selectQuery = new SelectQuery("SELECT SUM(price) as sum FROM PRODUCT");
                 selectQuery.execute();
 
-                StringBuilder sb = new StringBuilder();
-                sb.append("Summary price: \n");
-                if (selectQuery.next()) {
-                    sb.append(selectQuery.getInt("sum"));
-                }
-                response.getWriter().println(ResponseBuilder.buildResponse(sb.toString()));
+                response.getWriter().println(ResponseBuilder.buildAggregateResponse("Summary price: \n", selectQuery, "sum"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -62,13 +44,8 @@ public class QueryServlet extends HttpServlet {
             try {
                 SelectQuery selectQuery = new SelectQuery("SELECT COUNT(*) as count FROM PRODUCT");
                 selectQuery.execute();
-                
-                StringBuilder sb = new StringBuilder();
-                sb.append("Number of products: \n");
-                if (selectQuery.next()) {
-                    sb.append(selectQuery.getInt("count"));
-                }
-                response.getWriter().println(ResponseBuilder.buildResponse(sb.toString()));
+
+                response.getWriter().println(ResponseBuilder.buildAggregateResponse("Number of products: \n", selectQuery, "count"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

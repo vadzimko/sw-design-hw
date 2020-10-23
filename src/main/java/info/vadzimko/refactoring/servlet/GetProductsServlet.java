@@ -15,20 +15,7 @@ public class GetProductsServlet extends HttpServlet {
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT");
             selectQuery.execute();
 
-            StringBuilder sb = new StringBuilder();
-            boolean firstLine = true;
-            while (selectQuery.next()) {
-                if (!firstLine) {
-                    sb.append("\n");
-                }
-
-                String name = selectQuery.getString("name");
-                int price = selectQuery.getInt("price");
-                sb.append(name).append("\t").append(price).append("</br>");
-                firstLine = false;
-            }
-
-            response.getWriter().println(ResponseBuilder.buildResponse(sb.toString()));
+            response.getWriter().println(ResponseBuilder.buildProductsResponse(selectQuery));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
