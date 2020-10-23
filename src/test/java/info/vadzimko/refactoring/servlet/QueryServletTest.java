@@ -17,7 +17,7 @@ import java.sql.Statement;
 
 import static org.mockito.Mockito.when;
 
-public class ServletTest {
+public class QueryServletTest {
     private QueryServlet queryServlet;
 
     @Mock
@@ -66,14 +66,21 @@ public class ServletTest {
         return writer;
     }
 
+    private void mockServletRequestCommand(String command){
+        when(request.getParameter("command")).thenReturn(command);
+    }
 
-    @Test
-    public void maxTest() throws IOException {
-        when(request.getParameter("command")).thenReturn("max");
+    private void assertCommandResult(String command, String expectedResult) throws IOException {
+        mockServletRequestCommand(command);
         StringWriter writer = mockServletResponseWriter();
 
         queryServlet.doGet(request, response);
-        Assert.assertEquals(writer.toString(),
+        Assert.assertEquals(expectedResult, writer.toString());
+    }
+
+    @Test
+    public void maxTest() throws IOException {
+        assertCommandResult("max",
                 "<html><body>\n" +
                         "<h1>Product with max price: </h1>\n" +
                         "dog\t20</br>\n" +
@@ -82,11 +89,7 @@ public class ServletTest {
 
     @Test
     public void minTest() throws IOException {
-        when(request.getParameter("command")).thenReturn("min");
-        StringWriter writer = mockServletResponseWriter();
-
-        queryServlet.doGet(request, response);
-        Assert.assertEquals(writer.toString(),
+        assertCommandResult("min",
                 "<html><body>\n" +
                         "<h1>Product with min price: </h1>\n" +
                         "cat\t10</br>\n" +
@@ -95,11 +98,7 @@ public class ServletTest {
 
     @Test
     public void countTest() throws IOException {
-        when(request.getParameter("command")).thenReturn("count");
-        StringWriter writer = mockServletResponseWriter();
-
-        queryServlet.doGet(request, response);
-        Assert.assertEquals(writer.toString(),
+        assertCommandResult("count",
                 "<html><body>\n" +
                         "Number of products: \n" +
                         "2\n" +
@@ -108,11 +107,7 @@ public class ServletTest {
 
     @Test
     public void sumTest() throws IOException {
-        when(request.getParameter("command")).thenReturn("sum");
-        StringWriter writer = mockServletResponseWriter();
-
-        queryServlet.doGet(request, response);
-        Assert.assertEquals(writer.toString(),
+        assertCommandResult("sum",
                 "<html><body>\n" +
                         "Summary price: \n" +
                         "30\n" +
