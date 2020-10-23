@@ -34,4 +34,8 @@ public class SelectResultSet {
 
         return Integer.valueOf(str);
     }
+
+    public Integer getSize() {
+        return values.size();
+    }
 }

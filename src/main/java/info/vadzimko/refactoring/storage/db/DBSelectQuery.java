@@ -39,8 +39,12 @@ public class DBSelectQuery extends DBQuery {
         return selectResultSet.getString(column);
     }
 
-    public Integer getInt(String column) {
+    public int getInt(String column) {
         return selectResultSet.getInt(column);
+    }
+
+    public int getRowsCount() {
+        return selectResultSet.getSize();
     }
 
 }

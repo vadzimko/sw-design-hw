@@ -15,6 +15,10 @@ public class QueriesHandler {
         return buildProductsResponse(title, selectQuery);
     }
 
+    public static String selectAll(String sql) {
+        return selectAll("", sql);
+    }
+
     public static String aggregate(String title, String sql, String aggregateName) {
         DBSelectQuery selectQuery = new DBSelectQuery(sql);
         selectQuery.execute();
