@@ -2,7 +2,6 @@ package info.vadzimko.refactoring.servlet;
 
 import info.vadzimko.refactoring.html.ResponseBuilder;
 import info.vadzimko.refactoring.storage.QueriesHandler;
-import info.vadzimko.refactoring.storage.SelectQuery;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

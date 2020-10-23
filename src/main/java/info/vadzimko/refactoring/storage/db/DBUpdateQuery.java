@@ -1,10 +1,10 @@
-package info.vadzimko.refactoring.storage;
+package info.vadzimko.refactoring.storage.db;
 
 import java.sql.SQLException;
 
-public class UpdateQuery extends Query {
+public class DBUpdateQuery extends DBQuery {
 
-    public UpdateQuery(String query) {
+    public DBUpdateQuery(String query) {
         super(query);
     }
 

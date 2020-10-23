@@ -1,13 +1,13 @@
-package info.vadzimko.refactoring.storage;
+package info.vadzimko.refactoring.storage.db;
 
 import java.sql.*;
 
-abstract class Query {
+abstract class DBQuery {
 
     protected Statement statement;
     protected final String query;
 
-    public Query(String query) {
+    public DBQuery(String query) {
         this.query = query;
     }
 

@@ -1,15 +1,17 @@
-package info.vadzimko.refactoring.storage;
+package info.vadzimko.refactoring.storage.db;
+
+import info.vadzimko.refactoring.storage.SelectResultSet;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class SelectQuery extends Query {
+public class DBSelectQuery extends DBQuery {
 
     private SelectResultSet selectResultSet;
 
-    public SelectQuery(String query) {
+    public DBSelectQuery(String query) {
         super(query);
     }
 
