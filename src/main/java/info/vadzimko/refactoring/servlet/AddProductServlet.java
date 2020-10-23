@@ -1,7 +1,7 @@
 package info.vadzimko.refactoring.servlet;
 
 import info.vadzimko.refactoring.html.ResponseBuilder;
-import info.vadzimko.refactoring.storage.UpdateQuery;
+import info.vadzimko.refactoring.storage.QueriesHandler;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,15 +15,10 @@ public class AddProductServlet extends HttpServlet {
         String name = request.getParameter("name");
         long price = Long.parseLong(request.getParameter("price"));
 
-        try {
-            String sql = "INSERT INTO PRODUCT " +
-                    "(NAME, PRICE) VALUES (\"" + name + "\"," + price + ")";
-            UpdateQuery updateQuery = new UpdateQuery(sql);
-            updateQuery.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        String sql = "INSERT INTO PRODUCT " +
+                "(NAME, PRICE) VALUES (\"" + name + "\"," + price + ")";
+        String responseBody = QueriesHandler.update(sql);
 
-        ResponseBuilder.setOkResponse(response, "OK");
+        ResponseBuilder.setOkResponse(response, responseBody);
     }
 }

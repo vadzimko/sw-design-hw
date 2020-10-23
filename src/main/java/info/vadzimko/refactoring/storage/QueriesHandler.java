@@ -10,14 +10,21 @@ public class QueriesHandler {
         SelectQuery selectQuery = new SelectQuery(sql);
         selectQuery.execute();
 
-       return buildProductsResponse(title, selectQuery);
+        return buildProductsResponse(title, selectQuery);
     }
 
     public static String aggregate(String title, String sql, String aggregateName) {
         SelectQuery selectQuery = new SelectQuery(sql);
         selectQuery.execute();
 
-       return buildAggregateResponse(title, selectQuery, aggregateName);
+        return buildAggregateResponse(title, selectQuery, aggregateName);
+    }
+
+    public static String update(String sql) {
+        UpdateQuery updateQuery = new UpdateQuery(sql);
+        updateQuery.execute();
+
+        return "OK";
     }
 
 
