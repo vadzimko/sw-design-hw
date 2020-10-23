@@ -12,6 +12,7 @@ public class GetProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             SelectQuery selectQuery = new SelectQuery("SELECT * FROM PRODUCT");
+            selectQuery.execute();
             response.getWriter().println("<html><body>");
 
             while (selectQuery.next()) {

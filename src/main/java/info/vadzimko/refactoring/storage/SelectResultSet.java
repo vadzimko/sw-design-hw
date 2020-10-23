@@ -27,6 +27,11 @@ public class SelectResultSet {
     }
 
     public Integer getInt(String columnName) {
-        return Integer.valueOf(getString(columnName));
+        String str = getString(columnName);
+        if (str == null) {
+            return null;
+        }
+
+        return Integer.valueOf(str);
     }
 }

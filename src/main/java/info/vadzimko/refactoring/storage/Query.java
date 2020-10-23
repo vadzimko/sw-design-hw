@@ -9,7 +9,6 @@ abstract class Query {
 
     public Query(String query) {
         this.query = query;
-        execute();
     }
 
     public void execute() {
